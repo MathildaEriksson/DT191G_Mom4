@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DT191G_Mom4.Migrations
 {
     [DbContext(typeof(MusicDbContext))]
-    [Migration("20240215142819_InitialCreate")]
+    [Migration("20240215160527_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -64,17 +64,12 @@ namespace DT191G_Mom4.Migrations
             modelBuilder.Entity("DT191G_Mom4.Models.Song", b =>
                 {
                     b.HasOne("DT191G_Mom4.Models.Category", "Category")
-                        .WithMany("Songs")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("DT191G_Mom4.Models.Category", b =>
-                {
-                    b.Navigation("Songs");
                 });
 #pragma warning restore 612, 618
         }

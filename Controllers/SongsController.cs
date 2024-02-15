@@ -25,7 +25,9 @@ namespace DT191G_Mom4.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Song>>> GetSongs()
         {
-            return await _context.Songs.ToListAsync();
+            return await _context.Songs
+                         .Include(s => s.Category) // Include Category
+                         .ToListAsync();
         }
 
         // GET: api/Songs/5

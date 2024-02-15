@@ -6,5 +6,4 @@ public class Category
     public int CategoryId { get; set; }
     [Required]
     public string? Name { get; set; }
-    public ICollection<Song> Songs { get; set; } = new List<Song>();
 }
