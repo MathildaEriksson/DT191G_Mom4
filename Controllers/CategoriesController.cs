@@ -88,17 +88,27 @@ namespace DT191G_Mom4.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
-            var category = await _context.Categories.FindAsync(id);
-            if (category == null)
+            var categoryExists = await _context.Categories.AnyAsync(c => c.CategoryId == id);
+            if (!categoryExists)
             {
                 return NotFound();
             }
 
+            // Check if any song is associated with this category
+            var hasSongs = await _context.Songs.AnyAsync(s => s.CategoryId == id);
+            if (hasSongs)
+            {
+                return BadRequest("Cannot delete category because it has associated songs.");
+            }
+
+            // If no songs are associated, proceed to delete the category
+            var category = await _context.Categories.FindAsync(id);
             _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
+
 
         private bool CategoryExists(int id)
         {
