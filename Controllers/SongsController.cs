@@ -34,7 +34,9 @@ namespace DT191G_Mom4.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Song>> GetSong(int id)
         {
-            var song = await _context.Songs.FindAsync(id);
+            var song = await _context.Songs
+                                .Include(s => s.Category) // Include Category
+                                .FirstOrDefaultAsync(s => s.SongId == id); 
 
             if (song == null)
             {
